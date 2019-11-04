@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.header = new System.Windows.Forms.Label();
+            this.close = new System.Windows.Forms.Button();
             this.body = new ToppyMcTopface.TickerLabel();
             this.SuspendLayout();
             // 
@@ -46,6 +47,22 @@
             this.header.TabIndex = 0;
             this.header.Text = "Hello World";
             this.header.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MoveForm);
+            // 
+            // close
+            // 
+            this.close.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.close.AutoSize = true;
+            this.close.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.close.BackColor = System.Drawing.Color.White;
+            this.close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.close.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.close.Location = new System.Drawing.Point(361, 7);
+            this.close.Name = "close";
+            this.close.Size = new System.Drawing.Size(47, 25);
+            this.close.TabIndex = 1;
+            this.close.Text = "Close";
+            this.close.UseVisualStyleBackColor = false;
+            this.close.Click += new System.EventHandler(this.CloseClick);
             // 
             // body
             // 
@@ -70,20 +87,19 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(420, 70);
             this.ControlBox = false;
+            this.Controls.Add(this.close);
             this.Controls.Add(this.body);
             this.Controls.Add(this.header);
             this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(840, 140);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(420, 70);
             this.Name = "Toppy";
+            this.Opacity = 0.85D;
             this.ShowIcon = false;
             this.Text = "Toppy McTopface";
             this.TopMost = true;
@@ -98,6 +114,7 @@
 
         private System.Windows.Forms.Label header;
         private TickerLabel body;
+        private System.Windows.Forms.Button close;
     }
 }
 

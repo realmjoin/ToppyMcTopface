@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 using Utilities;
 
 namespace ToppyMcTopface
@@ -16,12 +17,14 @@ namespace ToppyMcTopface
             gkh.KeyDown += (sender, e) =>
             {
                 body.TickerEnabled = false;
+                Opacity = 1;
                 ClickThrough = false;
             };
 
             gkh.KeyUp += (sender, e) =>
             {
                 body.TickerEnabled = true;
+                Opacity = 0.85;
                 ClickThrough = true;
             };
 
@@ -64,6 +67,11 @@ namespace ToppyMcTopface
             {
                 this.MoveForm((Control)sender);
             }
+        }
+
+        private void CloseClick(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }
