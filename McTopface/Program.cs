@@ -13,7 +13,7 @@ namespace ToppyMcTopface
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Toppy());
+            Application.Run(new Toppy { StartPosition = FormStartPosition.CenterScreen });
         }
     }
 }
