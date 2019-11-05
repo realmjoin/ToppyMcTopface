@@ -1,11 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
     <TargetFramework>net471</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <RootNamespace>ToppyMcTopface</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputType>WinExe</OutputType>
   </PropertyGroup>
 
   <ItemGroup>

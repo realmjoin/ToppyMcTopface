@@ -11,6 +11,8 @@ namespace ToppyMcTopface
         [STAThread]
         static void Main()
         {
+            Console.WriteLine("ToppyMcTopface demo app");
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Toppy { StartPosition = FormStartPosition.CenterScreen });
