@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net471</TargetFramework>
+    <AssemblyName>ToppyMcTopface</AssemblyName>
     <RootNamespace>ToppyMcTopface</RootNamespace>
     <Version>0.9.0</Version>
   </PropertyGroup>

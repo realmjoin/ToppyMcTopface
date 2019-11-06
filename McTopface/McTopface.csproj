@@ -2,9 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>net471</TargetFramework>
+    <AssemblyName>McTopface</AssemblyName>
+    <RootNamespace>ToppyMcTopface</RootNamespace>
     <UseWindowsForms>true</UseWindowsForms>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <RootNamespace>ToppyMcTopface</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

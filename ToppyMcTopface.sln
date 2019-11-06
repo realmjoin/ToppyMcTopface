@@ -5,7 +5,15 @@ VisualStudioVersion = 16.0.29424.173
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Toppy", "Toppy\Toppy.csproj", "{187D33A4-4AB9-4B21-ADCC-296BD8A175B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "McTopface", "McTopface\McTopface.csproj", "{E394332E-83BC-46F9-92F3-6CE9465E1A9D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "McTopface", "McTopface\McTopface.csproj", "{E394332E-83BC-46F9-92F3-6CE9465E1A9D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{1C52D841-C7AA-45F5-80C7-B5343554E124}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{7A8230DA-9596-42F6-BE4F-74D2EFE8839E}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\build.yml = .github\workflows\build.yml
+		.github\workflows\publish.yml = .github\workflows\publish.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,6 +32,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7A8230DA-9596-42F6-BE4F-74D2EFE8839E} = {1C52D841-C7AA-45F5-80C7-B5343554E124}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {51FAB56E-4F66-4CEF-A9F0-5A721CA2FBCA}
