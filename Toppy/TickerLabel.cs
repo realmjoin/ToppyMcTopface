@@ -87,7 +87,8 @@ namespace ToppyMcTopface
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            e.Graphics.FillRectangle(backBrush, e.ClipRectangle);
+            if (backBrush != null)
+                e.Graphics.FillRectangle(backBrush, e.ClipRectangle);
 
             var (width, count) = Measure(e.Graphics);
 

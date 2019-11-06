@@ -1,4 +1,5 @@
 ﻿using Gma.System.MouseKeyHook;
+using Mwfga;
 using System;
 using System.Drawing;
 using System.Threading;
@@ -12,6 +13,7 @@ namespace ToppyMcTopface
         private const int InteractionTypeMouse = 2;
 
         private readonly IKeyboardMouseEvents gkh = Hook.GlobalEvents();
+        private readonly GreatScaling scaling;
 
         private Point initialMousePosition;
         private bool clickThrough = true;
@@ -20,6 +22,9 @@ namespace ToppyMcTopface
         public Toppy()
         {
             InitializeComponent();
+
+            scaling = new GreatScaling(this);
+            scaling.PrepareFontScaling(close);
 
             gkh.KeyDown += (sender, e) =>
             {
@@ -56,6 +61,15 @@ namespace ToppyMcTopface
                     DisableInteraction(InteractionTypeMouse);
                 }
             };
+        }
+
+        public Label Header => header;
+        public Label Body => body;
+
+        protected override void OnDpiChanged(DpiChangedEventArgs e)
+        {
+            base.OnDpiChanged(e);
+            scaling.ScaleAfterDpiChange();
         }
 
         protected override void Dispose(bool disposing)
@@ -109,13 +123,14 @@ namespace ToppyMcTopface
         private void ToppyLoad(object sender, EventArgs e)
         {
             initialMousePosition = MousePosition;
+            DpiUtils.InitPerMonitorDpi(this);
         }
 
         private void MoveForm(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left && ModifierKeys.HasFlag(Keys.Control))
             {
-                this.MoveForm((Control)sender);
+                ((Control)sender).MoveFormFromChild();
             }
         }
 

@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace ToppyMcTopface
@@ -15,7 +16,15 @@ namespace ToppyMcTopface
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Toppy { StartPosition = FormStartPosition.CenterScreen });
+
+            var toppy = new Toppy
+            {
+                StartPosition = FormStartPosition.CenterScreen,
+                Header = { Text = "ToppyMcTopface demo app" },
+                Body = { BackColor = Color.Sienna }
+            };
+
+            Application.Run(toppy);
         }
     }
 }
