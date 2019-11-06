@@ -16,7 +16,7 @@ jobs:
       with:
         dotnet-version: 2.2.108
     - name: Pack with dotnet
-      run: dotnet pack --configuration Release -o build; Remove-Item .\build\McTopface.*.nupkg
+      run: dotnet pack --configuration Release -o build; Remove-Item build/McTopface.*.nupkg
     - name: Upload artifact
       uses: actions/upload-artifact@v1
       with:
@@ -26,5 +26,5 @@ jobs:
       env:
         NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
       run: |
-        $file = Get-ChildItem -File bin/Release/ToppyMcTopface.*.nupkg
+        $file = Get-ChildItem -File build/ToppyMcTopface.*.nupkg
         dotnet nuget push "$file" -s "https://api.nuget.org/v3/index.json" -k "$env:NUGET_API_KEY"
