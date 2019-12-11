@@ -4,6 +4,7 @@
     <TargetFramework>net471</TargetFramework>
     <AssemblyName>ToppyMcTopface</AssemblyName>
     <RootNamespace>ToppyMcTopface</RootNamespace>
+    <UseWindowsForms>true</UseWindowsForms>
     <Version>0.9.1</Version>
   </PropertyGroup>
 
