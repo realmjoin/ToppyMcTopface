@@ -69,6 +69,7 @@ namespace ToppyMcTopface
         public bool EnableBodyTicker { get; set; } = true;
         public bool EnableClickThrough { get; set; } = true;
         public bool EnableFormMove { get; set; } = true;
+        public bool EnableUserClose { get; set; } = true;
         public double OpacityWhenInteracting { get; set; } = 1.0;
         public double OpacityWhenNotInteracting { get; set; } = 0.9;
 
@@ -154,6 +155,8 @@ namespace ToppyMcTopface
 
             body.TickerEnabled = EnableBodyTicker;
             Opacity = OpacityWhenNotInteracting;
+            close.Enabled = EnableUserClose;
+            close.Visible = EnableUserClose;
         }
 
         private void MoveForm(object sender, MouseEventArgs e)
@@ -166,7 +169,8 @@ namespace ToppyMcTopface
 
         private void CloseClick(object sender, EventArgs e)
         {
-            OnUserClosing();
+            if (EnableUserClose)
+                OnUserClosing();
         }
     }
 }
