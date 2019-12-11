@@ -83,7 +83,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Toppy";
-            this.Opacity = 0.85D;
+            this.Opacity = 0.9D;
             this.ShowIcon = false;
             this.Text = "Toppy McTopface";
             this.TopMost = true;

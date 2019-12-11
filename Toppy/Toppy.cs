@@ -66,6 +66,12 @@ namespace ToppyMcTopface
         public Label Header => header;
         public Label Body => body;
 
+        public bool EnableBodyTicker { get; set; } = true;
+        public bool EnableClickThrough { get; set; } = true;
+        public bool EnableFormMove { get; set; } = true;
+        public double OpacityWhenInteracting { get; set; } = 1.0;
+        public double OpacityWhenNotInteracting { get; set; } = 0.9;
+
         public event EventHandler<UserClosingEventArgs> UserClosing;
         public event EventHandler UserClosed;
 
@@ -89,7 +95,8 @@ namespace ToppyMcTopface
         protected override void OnDpiChanged(DpiChangedEventArgs e)
         {
             base.OnDpiChanged(e);
-            scaling.ScaleAfterDpiChange();
+            scaling.ScaleFontAfterDpiChange();
+            scaling.ScaleFormSizeConstraintsAfterDpiChange();
         }
 
         protected override void Dispose(bool disposing)
@@ -108,7 +115,7 @@ namespace ToppyMcTopface
             if (Interlocked.CompareExchange(ref interacting, type, 0) == 0)
             {
                 body.TickerEnabled = false;
-                Opacity = 1;
+                Opacity = OpacityWhenInteracting;
                 clickThrough = false;
                 UpdateStyles();
             }
@@ -118,9 +125,9 @@ namespace ToppyMcTopface
         {
             if (Interlocked.CompareExchange(ref interacting, 0, type) == type)
             {
-                body.TickerEnabled = true;
-                Opacity = 0.85;
-                clickThrough = true;
+                body.TickerEnabled = EnableBodyTicker;
+                Opacity = OpacityWhenNotInteracting;
+                clickThrough = EnableClickThrough;
                 UpdateStyles();
             }
         }
@@ -131,7 +138,7 @@ namespace ToppyMcTopface
             {
                 var cp = base.CreateParams;
 
-                if (clickThrough)
+                if (clickThrough && EnableClickThrough)
                 {
                     cp.EnableClickThrough();
                 }
@@ -144,11 +151,14 @@ namespace ToppyMcTopface
         {
             initialMousePosition = MousePosition;
             DpiUtils.InitPerMonitorDpi(this);
+
+            body.TickerEnabled = EnableBodyTicker;
+            Opacity = OpacityWhenNotInteracting;
         }
 
         private void MoveForm(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left && ModifierKeys.HasFlag(Keys.Control))
+            if (EnableFormMove && e.Button == MouseButtons.Left && ModifierKeys.HasFlag(Keys.Control))
             {
                 ((Control)sender).MoveFormFromChild();
             }
