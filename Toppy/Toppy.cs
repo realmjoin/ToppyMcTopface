@@ -66,6 +66,26 @@ namespace ToppyMcTopface
         public Label Header => header;
         public Label Body => body;
 
+        public event EventHandler<UserClosingEventArgs> UserClosing;
+        public event EventHandler UserClosed;
+
+        protected virtual void OnUserClosing()
+        {
+            var e = new UserClosingEventArgs();
+            UserClosing?.Invoke(this, e);
+
+            if (!e.Cancel)
+            {
+                Close();
+                OnUserClosed();
+            }
+        }
+
+        protected virtual void OnUserClosed()
+        {
+            UserClosed?.Invoke(this, EventArgs.Empty);
+        }
+
         protected override void OnDpiChanged(DpiChangedEventArgs e)
         {
             base.OnDpiChanged(e);
@@ -136,7 +156,7 @@ namespace ToppyMcTopface
 
         private void CloseClick(object sender, EventArgs e)
         {
-            Close();
+            OnUserClosing();
         }
     }
 }
