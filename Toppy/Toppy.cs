@@ -24,6 +24,8 @@ namespace ToppyMcTopface
             InitializeComponent();
 
             scaling = new GreatScaling(this);
+            scaling.PrepareFontScaling(header);
+            scaling.PrepareFontScaling(footer);
             scaling.PrepareFontScaling(close);
 
             gkh.KeyDown += (sender, e) =>
@@ -61,20 +63,27 @@ namespace ToppyMcTopface
                     DisableInteraction(InteractionTypeMouse);
                 }
             };
+
+            ResizeToMinimumHeight();
         }
 
         public Label Header => header;
         public Label Body => body;
+        public Label Footer => footer;
 
-        public bool EnableBodyTicker { get; set; } = true;
         public bool EnableClickThrough { get; set; } = true;
         public bool EnableFormMove { get; set; } = true;
         public bool EnableUserClose { get; set; } = true;
         public double OpacityWhenInteracting { get; set; } = 1.0;
-        public double OpacityWhenNotInteracting { get; set; } = 0.9;
+        public double OpacityWhenNotInteracting { get; set; } = 0.8;
 
         public event EventHandler<UserClosingEventArgs> UserClosing;
         public event EventHandler UserClosed;
+
+        public void ResizeToMinimumHeight()
+        {
+            ClientSize = new Size(ClientSize.Width, header.Height + body.Height + footer.Height);
+        }
 
         protected virtual void OnUserClosing()
         {
@@ -115,7 +124,6 @@ namespace ToppyMcTopface
         {
             if (Interlocked.CompareExchange(ref interacting, type, 0) == 0)
             {
-                body.TickerEnabled = false;
                 Opacity = OpacityWhenInteracting;
                 clickThrough = false;
                 UpdateStyles();
@@ -126,7 +134,6 @@ namespace ToppyMcTopface
         {
             if (Interlocked.CompareExchange(ref interacting, 0, type) == type)
             {
-                body.TickerEnabled = EnableBodyTicker;
                 Opacity = OpacityWhenNotInteracting;
                 clickThrough = EnableClickThrough;
                 UpdateStyles();
@@ -153,7 +160,6 @@ namespace ToppyMcTopface
             initialMousePosition = MousePosition;
             DpiUtils.InitPerMonitorDpi(this);
 
-            body.TickerEnabled = EnableBodyTicker;
             Opacity = OpacityWhenNotInteracting;
             close.Enabled = EnableUserClose;
             close.Visible = EnableUserClose;

@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace ToppyMcTopface
 {
-    public class TickerLabel : Label
+    internal class TickerLabel : Label
     {
         private readonly Timer timer = new Timer();
 
