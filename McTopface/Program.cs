@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -21,6 +22,7 @@ namespace ToppyMcTopface
             {
                 StartPosition = FormStartPosition.Manual,
                 Header = { Text = "ToppyMcTopface demo app" },
+                Body = { Text = "Omnis quis laboriosam atque est. Explicabo omnis et dolor totam accusamus est vol uptatem. Sint et possimus repellat dolorem." },
             };
 
             toppy.Top = 20;

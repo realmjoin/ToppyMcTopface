@@ -36,7 +36,6 @@
             this.header.Margin = new System.Windows.Forms.Padding(0);
             this.header.Name = "header";
             this.header.Padding = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.header.Size = new System.Drawing.Size(376, 40);
             this.header.TabIndex = 0;
             this.header.Text = "Hello World";
             this.header.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -56,10 +55,8 @@
             this.body.Margin = new System.Windows.Forms.Padding(0);
             this.body.Name = "body";
             this.body.Padding = new System.Windows.Forms.Padding(4);
-            this.body.Size = new System.Drawing.Size(416, 71);
             this.body.TabIndex = 0;
-            this.body.Text = "Omnis quis laboriosam atque est. Explicabo omnis et dolor totam accusamus est vol" +
-    "uptatem. Sint et possimus repellat dolorem. +++";
+            this.body.Text = "+++";
             this.body.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MoveForm);
             // 
             // layout
@@ -80,7 +77,6 @@
             this.layout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.layout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.layout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.layout.Size = new System.Drawing.Size(416, 234);
             this.layout.TabIndex = 3;
             // 
             // close
@@ -97,7 +93,6 @@
             this.close.Location = new System.Drawing.Point(376, 0);
             this.close.Margin = new System.Windows.Forms.Padding(0);
             this.close.Name = "close";
-            this.close.Size = new System.Drawing.Size(40, 40);
             this.close.TabIndex = 1;
             this.close.Text = "🗙";
             this.close.UseVisualStyleBackColor = false;
@@ -117,7 +112,6 @@
             this.footer.Margin = new System.Windows.Forms.Padding(0);
             this.footer.Name = "footer";
             this.footer.Padding = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.footer.Size = new System.Drawing.Size(416, 20);
             this.footer.TabIndex = 3;
             this.footer.Text = "powered by ToppyMcTopface";
             this.footer.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

@@ -163,6 +163,7 @@ namespace ToppyMcTopface
             Opacity = OpacityWhenNotInteracting;
             close.Enabled = EnableUserClose;
             close.Visible = EnableUserClose;
+            ResizeToMinimumHeight();
         }
 
         private void MoveForm(object sender, MouseEventArgs e)
