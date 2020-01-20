@@ -54,7 +54,7 @@
             this.body.Location = new System.Drawing.Point(0, 40);
             this.body.Margin = new System.Windows.Forms.Padding(0);
             this.body.Name = "body";
-            this.body.Padding = new System.Windows.Forms.Padding(4);
+            this.body.Padding = new System.Windows.Forms.Padding(4, 8, 4, 8);
             this.body.TabIndex = 0;
             this.body.Text = "+++";
             this.body.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MoveForm);
