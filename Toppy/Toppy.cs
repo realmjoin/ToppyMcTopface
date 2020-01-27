@@ -1,6 +1,7 @@
 ﻿using Gma.System.MouseKeyHook;
 using Mwfga;
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
@@ -17,6 +18,7 @@ namespace ToppyMcTopface
 
         private Point initialMousePosition;
         private bool clickThrough = true;
+        private bool disableClose = true;
         private int interacting = 0;
 
         public Toppy()
@@ -92,6 +94,7 @@ namespace ToppyMcTopface
 
             if (!e.Cancel)
             {
+                disableClose = false;
                 Close();
                 OnUserClosed();
             }
@@ -100,6 +103,12 @@ namespace ToppyMcTopface
         protected virtual void OnUserClosed()
         {
             UserClosed?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            if (disableClose)
+                e.Cancel = true;
         }
 
         protected override void OnDpiChanged(DpiChangedEventArgs e)

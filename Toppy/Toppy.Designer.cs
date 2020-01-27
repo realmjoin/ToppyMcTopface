@@ -132,6 +132,7 @@
             this.Name = "Toppy";
             this.Opacity = 0.8D;
             this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.Text = "Toppy McTopface";
             this.TopMost = true;
             this.TransparencyKey = System.Drawing.Color.Fuchsia;
