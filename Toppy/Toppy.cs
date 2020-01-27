@@ -160,6 +160,10 @@ namespace ToppyMcTopface
                     cp.EnableClickThrough();
                 }
 
+                // Need to duplicate the designer properties here:
+                cp.SetMaximizeBox(false);
+                cp.SetMinimizeBox(false);
+
                 return cp;
             }
         }
