@@ -149,11 +149,15 @@ namespace ToppyMcTopface
             }
         }
 
+        protected override bool ShowWithoutActivation => true;
+
         protected override CreateParams CreateParams
         {
             get
             {
                 var cp = base.CreateParams;
+
+                cp.SetTopMost(true);
 
                 if (clickThrough && EnableClickThrough)
                 {

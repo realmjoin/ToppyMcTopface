@@ -134,7 +134,6 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.Text = "Toppy McTopface";
-            this.TopMost = true;
             this.TransparencyKey = System.Drawing.Color.Fuchsia;
             this.Load += new System.EventHandler(this.ToppyLoad);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MoveForm);
