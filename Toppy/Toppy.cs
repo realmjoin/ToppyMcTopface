@@ -87,6 +87,12 @@ namespace ToppyMcTopface
             ClientSize = new Size(ClientSize.Width, header.Height + body.Height + footer.Height);
         }
 
+        public void ForceClose()
+        {
+            disableClose = false;
+            Close();
+        }
+
         protected virtual void OnUserClosing()
         {
             var e = new UserClosingEventArgs();
@@ -94,8 +100,7 @@ namespace ToppyMcTopface
 
             if (!e.Cancel)
             {
-                disableClose = false;
-                Close();
+                ForceClose();
                 OnUserClosed();
             }
         }
