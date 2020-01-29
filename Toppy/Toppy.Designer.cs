@@ -78,6 +78,7 @@
             this.layout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.layout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.layout.TabIndex = 3;
+            this.layout.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MoveForm);
             // 
             // close
             // 
@@ -115,6 +116,7 @@
             this.footer.TabIndex = 3;
             this.footer.Text = "powered by ToppyMcTopface";
             this.footer.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.footer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MoveForm);
             // 
             // Toppy
             // 
@@ -136,7 +138,6 @@
             this.Text = "Toppy McTopface";
             this.TransparencyKey = System.Drawing.Color.Fuchsia;
             this.Load += new System.EventHandler(this.ToppyLoad);
-            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MoveForm);
             this.layout.ResumeLayout(false);
             this.layout.PerformLayout();
             this.ResumeLayout(false);
