@@ -18,6 +18,7 @@ namespace ToppyMcTopface
         private Point initialMousePosition;
         private bool clickThrough = true;
         private int interacting = 0;
+        private bool enableUserClose = true;
 
         public Toppy()
         {
@@ -47,7 +48,7 @@ namespace ToppyMcTopface
 
             gkh.MouseMove += (sender, e) =>
             {
-                if (!EnableUserClose) return;
+                if (!enableUserClose) return;
 
                 var target = new Rectangle(close.PointToScreen(Point.Empty), close.Size);
                 var hit = target.Contains(e.Location);
@@ -75,7 +76,21 @@ namespace ToppyMcTopface
 
         public bool EnableClickThrough { get; set; } = true;
         public bool EnableFormMove { get; set; } = true;
-        public bool EnableUserClose { get; set; } = true;
+
+        public bool EnableUserClose
+        {
+            get => enableUserClose;
+            set
+            {
+                enableUserClose = value;
+
+                if (close.InvokeRequired)
+                    close.Invoke(new MethodInvoker(UpdateUserCloseUi));
+                else
+                    UpdateUserCloseUi();
+            }
+        }
+
         public double OpacityWhenInteracting { get; set; } = 1.0;
         public double OpacityWhenNotInteracting { get; set; } = 0.8;
 
@@ -161,14 +176,25 @@ namespace ToppyMcTopface
 
             Opacity = OpacityWhenNotInteracting;
 
-            if (!EnableUserClose)
-            {
-                close.BackColor = header.BackColor;
-                close.Enabled = false;
-                close.Text = "";
-            }
-
+            UpdateUserCloseUi();
             ResizeToMinimumHeight();
+        }
+
+        private void UpdateUserCloseUi()
+        {
+            if (enableUserClose)
+            {
+                close.Enabled = true;
+                close.BackColor = Color.FromArgb(200, 0, 0, 0);
+                close.Text = "🗙";
+            }
+            else
+            {
+                close.Enabled = false;
+                close.BackColor = header.BackColor;
+                close.Text = "";
+                DisableInteraction(InteractionTypeMouse);
+            }
         }
 
         private void MoveForm(object sender, MouseEventArgs e)
@@ -182,7 +208,7 @@ namespace ToppyMcTopface
 
         private void CloseClick(object sender, EventArgs e)
         {
-            if (EnableUserClose)
+            if (enableUserClose)
             {
                 OnUserInteraction(UserInteractionType.Close);
                 Close();
