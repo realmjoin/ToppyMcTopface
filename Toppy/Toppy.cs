@@ -49,6 +49,8 @@ namespace ToppyMcTopface
 
             gkh.MouseMove += (sender, e) =>
             {
+                if (!EnableUserClose) return;
+
                 var target = new Rectangle(close.PointToScreen(Point.Empty), close.Size);
                 var hit = target.Contains(e.Location);
 
@@ -183,8 +185,14 @@ namespace ToppyMcTopface
             DpiUtils.InitPerMonitorDpi(this);
 
             Opacity = OpacityWhenNotInteracting;
-            close.Enabled = EnableUserClose;
-            close.Visible = EnableUserClose;
+
+            if (!EnableUserClose)
+            {
+                close.BackColor = header.BackColor;
+                close.Enabled = false;
+                close.Text = "";
+            }
+
             ResizeToMinimumHeight();
         }
 
