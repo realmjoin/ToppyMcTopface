@@ -79,29 +79,16 @@ namespace ToppyMcTopface
         public double OpacityWhenInteracting { get; set; } = 1.0;
         public double OpacityWhenNotInteracting { get; set; } = 0.8;
 
-        public event EventHandler<UserClosingEventArgs> UserClosing;
-        public event EventHandler UserClosed;
+        public event EventHandler<UserInteractionEventArgs> UserInteraction;
 
         public void ResizeToMinimumHeight()
         {
             ClientSize = new Size(ClientSize.Width, header.Height + body.Height + footer.Height);
         }
 
-        protected virtual void OnUserClosing()
+        protected virtual void OnUserInteraction(UserInteractionType type)
         {
-            var e = new UserClosingEventArgs();
-            UserClosing?.Invoke(this, e);
-
-            if (!e.Cancel)
-            {
-                Close();
-                OnUserClosed();
-            }
-        }
-
-        protected virtual void OnUserClosed()
-        {
-            UserClosed?.Invoke(this, EventArgs.Empty);
+            UserInteraction?.Invoke(this, new UserInteractionEventArgs(type));
         }
 
         protected override void OnDpiChanged(DpiChangedEventArgs e)
@@ -126,6 +113,7 @@ namespace ToppyMcTopface
         {
             if (Interlocked.CompareExchange(ref interacting, type, 0) == 0)
             {
+                OnUserInteraction(UserInteractionType.EnableInteraction);
                 Opacity = OpacityWhenInteracting;
                 clickThrough = false;
                 UpdateStyles();
@@ -136,6 +124,7 @@ namespace ToppyMcTopface
         {
             if (Interlocked.CompareExchange(ref interacting, 0, type) == type)
             {
+                OnUserInteraction(UserInteractionType.DisableInteraction);
                 Opacity = OpacityWhenNotInteracting;
                 clickThrough = EnableClickThrough;
                 UpdateStyles();
@@ -186,6 +175,7 @@ namespace ToppyMcTopface
         {
             if (EnableFormMove && e.Button == MouseButtons.Left && ModifierKeys.HasFlag(Keys.Control))
             {
+                OnUserInteraction(UserInteractionType.Move);
                 ((Control)sender).MoveFormFromChild();
             }
         }
@@ -193,7 +183,10 @@ namespace ToppyMcTopface
         private void CloseClick(object sender, EventArgs e)
         {
             if (EnableUserClose)
-                OnUserClosing();
+            {
+                OnUserInteraction(UserInteractionType.Close);
+                Close();
+            }
         }
     }
 }
