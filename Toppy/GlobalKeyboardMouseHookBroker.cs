@@ -1,12 +1,15 @@
 ﻿using Gma.System.MouseKeyHook;
 using System;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace ToppyMcTopface
 {
     public class GlobalKeyboardMouseHookBroker : IKeyboardEvents, IMouseEvents
     {
-        private readonly IKeyboardMouseEvents hook = Hook.GlobalEvents();
+        private readonly Thread thread;
+
+        private IKeyboardMouseEvents hook;
 
         static GlobalKeyboardMouseHookBroker()
         {
@@ -15,6 +18,14 @@ namespace ToppyMcTopface
 
         private GlobalKeyboardMouseHookBroker()
         {
+            thread = new Thread(MyThread) { IsBackground = true, Priority = ThreadPriority.Highest };
+            thread.Start();
+        }
+
+        private void MyThread()
+        {
+            hook = Hook.GlobalEvents();
+
             hook.KeyDown += (sender, e) => KeyDown?.Invoke(sender, e);
             hook.KeyPress += (sender, e) => KeyPress?.Invoke(sender, e);
             hook.KeyUp += (sender, e) => KeyUp?.Invoke(sender, e);
@@ -33,10 +44,12 @@ namespace ToppyMcTopface
             hook.MouseDragStartedExt += (sender, e) => MouseDragStartedExt?.Invoke(sender, e);
             hook.MouseDragFinished += (sender, e) => MouseDragFinished?.Invoke(sender, e);
             hook.MouseDragFinishedExt += (sender, e) => MouseDragFinishedExt?.Invoke(sender, e);
+
+            Application.Run();
         }
 
         /// <summary>
-        /// Gets the singleton <see cref="GlobalKeyboardMouseHookBroker"/> instance. Make sure to call this on your main-thread the first time, so the hooks can be set up properly!
+        /// Gets the singleton <see cref="GlobalKeyboardMouseHookBroker"/> instance.
         /// </summary>
         public static GlobalKeyboardMouseHookBroker Instance { get; set; }
 
