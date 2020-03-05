@@ -29,43 +29,9 @@ namespace ToppyMcTopface
             scaling.PrepareFontScaling(footer);
             scaling.PrepareFontScaling(close);
 
-            gkh.KeyDown += (sender, e) =>
-            {
-                if (e.KeyCode == Keys.LControlKey || e.KeyCode == Keys.RControlKey)
-                {
-                    EnableInteraction(InteractionTypeKeyboard);
-                }
-            };
-
-            gkh.KeyUp += (sender, e) =>
-            {
-                if (e.KeyCode == Keys.LControlKey || e.KeyCode == Keys.RControlKey)
-                {
-                    initialMousePosition = default;
-                    DisableInteraction(InteractionTypeKeyboard);
-                }
-            };
-
-            gkh.MouseMove += (sender, e) =>
-            {
-                if (!enableUserClose) return;
-
-                var target = new Rectangle(close.PointToScreen(Point.Empty), close.Size);
-                var hit = target.Contains(e.Location);
-
-                if (hit)
-                {
-                    if (!target.Contains(initialMousePosition))
-                    {
-                        EnableInteraction(InteractionTypeMouse);
-                    }
-                }
-                else
-                {
-                    initialMousePosition = default;
-                    DisableInteraction(InteractionTypeMouse);
-                }
-            };
+            gkh.KeyDown += GlobalHookKeyDown;
+            gkh.KeyUp += GlobalHookKeyUp;
+            gkh.MouseMove += GlobalHookMouseMove;
 
             ResizeToMinimumHeight();
         }
@@ -143,6 +109,44 @@ namespace ToppyMcTopface
                 Opacity = OpacityWhenNotInteracting;
                 clickThrough = EnableClickThrough;
                 UpdateStyles();
+            }
+        }
+
+        private void GlobalHookKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.LControlKey || e.KeyCode == Keys.RControlKey)
+            {
+                EnableInteraction(InteractionTypeKeyboard);
+            }
+        }
+
+        private void GlobalHookKeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.LControlKey || e.KeyCode == Keys.RControlKey)
+            {
+                initialMousePosition = default;
+                DisableInteraction(InteractionTypeKeyboard);
+            }
+        }
+
+        private void GlobalHookMouseMove(object sender, MouseEventArgs e)
+        {
+            if (!enableUserClose) return;
+
+            var target = new Rectangle(close.PointToScreen(Point.Empty), close.Size);
+            var hit = target.Contains(e.Location);
+
+            if (hit)
+            {
+                if (!target.Contains(initialMousePosition))
+                {
+                    EnableInteraction(InteractionTypeMouse);
+                }
+            }
+            else
+            {
+                initialMousePosition = default;
+                DisableInteraction(InteractionTypeMouse);
             }
         }
 
