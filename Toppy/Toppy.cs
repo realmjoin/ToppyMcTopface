@@ -1,6 +1,6 @@
-﻿using Gma.System.MouseKeyHook;
-using Mwfga;
+﻿using Mwfga;
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
@@ -12,7 +12,7 @@ namespace ToppyMcTopface
         private const int InteractionTypeKeyboard = 1;
         private const int InteractionTypeMouse = 2;
 
-        private readonly IKeyboardMouseEvents gkh = Hook.GlobalEvents();
+        private readonly GlobalKeyboardMouseHookBroker broker;
         private readonly GreatScaling scaling;
 
         private Point initialMousePosition;
@@ -20,18 +20,16 @@ namespace ToppyMcTopface
         private int interacting = 0;
         private bool enableUserClose = true;
 
-        public Toppy()
+        public Toppy(GlobalKeyboardMouseHookBroker broker)
         {
+            this.broker = broker;
+
             InitializeComponent();
 
             scaling = new GreatScaling(this);
             scaling.PrepareFontScaling(header);
             scaling.PrepareFontScaling(footer);
             scaling.PrepareFontScaling(close);
-
-            gkh.KeyDown += GlobalHookKeyDown;
-            gkh.KeyUp += GlobalHookKeyUp;
-            gkh.MouseMove += GlobalHookMouseMove;
 
             ResizeToMinimumHeight();
         }
@@ -83,7 +81,6 @@ namespace ToppyMcTopface
         {
             if (disposing)
             {
-                gkh?.Dispose();
                 components?.Dispose();
             }
 
@@ -114,13 +111,64 @@ namespace ToppyMcTopface
 
         private void GlobalHookKeyDown(object sender, KeyEventArgs e)
         {
+            try
+            {
+                if (InvokeRequired)
+                {
+                    Invoke(new KeyEventHandler(GlobalHookKeyDownImpl), sender, e);
+                }
+                else
+                {
+                    GlobalHookKeyDownImpl(sender, e);
+                }
+            }
+            catch (ObjectDisposedException) { }
+            catch { }
+        }
+
+        private void GlobalHookKeyUp(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (InvokeRequired)
+                {
+                    Invoke(new KeyEventHandler(GlobalHookKeyUpImpl), sender, e);
+                }
+                else
+                {
+                    GlobalHookKeyUpImpl(sender, e);
+                }
+            }
+            catch (ObjectDisposedException) { }
+            catch { }
+        }
+
+        private void GlobalHookMouseMove(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                if (InvokeRequired)
+                {
+                    Invoke(new MouseEventHandler(GlobalHookMouseMoveImpl), sender, e);
+                }
+                else
+                {
+                    GlobalHookMouseMoveImpl(sender, e);
+                }
+            }
+            catch (ObjectDisposedException) { }
+            catch { }
+        }
+
+        private void GlobalHookKeyDownImpl(object sender, KeyEventArgs e)
+        {
             if (e.KeyCode == Keys.LControlKey || e.KeyCode == Keys.RControlKey)
             {
                 EnableInteraction(InteractionTypeKeyboard);
             }
         }
 
-        private void GlobalHookKeyUp(object sender, KeyEventArgs e)
+        private void GlobalHookKeyUpImpl(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.LControlKey || e.KeyCode == Keys.RControlKey)
             {
@@ -129,7 +177,7 @@ namespace ToppyMcTopface
             }
         }
 
-        private void GlobalHookMouseMove(object sender, MouseEventArgs e)
+        private void GlobalHookMouseMoveImpl(object sender, MouseEventArgs e)
         {
             if (!enableUserClose) return;
 
@@ -178,6 +226,8 @@ namespace ToppyMcTopface
             initialMousePosition = MousePosition;
             DpiUtils.InitPerMonitorDpi(this);
 
+            Register();
+
             Opacity = OpacityWhenNotInteracting;
 
             UpdateUserCloseUi();
@@ -217,6 +267,26 @@ namespace ToppyMcTopface
                 OnUserInteraction(UserInteractionType.Close);
                 Close();
             }
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            Unregister();
+            base.OnClosing(e);
+        }
+
+        private void Register()
+        {
+            broker.KeyDown += GlobalHookKeyDown;
+            broker.KeyUp += GlobalHookKeyUp;
+            broker.MouseMove += GlobalHookMouseMove;
+        }
+
+        private void Unregister()
+        {
+            broker.KeyDown -= GlobalHookKeyDown;
+            broker.KeyUp -= GlobalHookKeyUp;
+            broker.MouseMove -= GlobalHookMouseMove;
         }
     }
 }
