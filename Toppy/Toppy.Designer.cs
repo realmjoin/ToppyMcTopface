@@ -16,7 +16,7 @@
         private void InitializeComponent()
         {
             this.header = new System.Windows.Forms.Label();
-            this.body = new System.Windows.Forms.Label();
+            this.body = new ToppyMcTopface.MyLinkLabel();
             this.layout = new System.Windows.Forms.TableLayoutPanel();
             this.close = new System.Windows.Forms.Button();
             this.footer = new System.Windows.Forms.Label();
@@ -51,6 +51,7 @@
             this.body.BackColor = System.Drawing.Color.Transparent;
             this.layout.SetColumnSpan(this.body, 2);
             this.body.ForeColor = System.Drawing.Color.White;
+            this.body.LinkArea = new System.Windows.Forms.LinkArea(0, 0);
             this.body.Location = new System.Drawing.Point(0, 40);
             this.body.Margin = new System.Windows.Forms.Padding(0);
             this.body.Name = "body";
@@ -147,7 +148,7 @@
         #endregion
 
         private System.Windows.Forms.Label header;
-        private System.Windows.Forms.Label body;
+        private ToppyMcTopface.MyLinkLabel body;
         private System.Windows.Forms.TableLayoutPanel layout;
         private System.Windows.Forms.Button close;
         private System.Windows.Forms.Label footer;

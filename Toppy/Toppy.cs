@@ -35,7 +35,7 @@ namespace ToppyMcTopface
         }
 
         public Label Header => header;
-        public Label Body => body;
+        public LinkLabel Body => body;
         public Label Footer => footer;
 
         public bool EnableClickThrough { get; set; } = true;
@@ -181,15 +181,38 @@ namespace ToppyMcTopface
         {
             if (!enableUserClose) return;
 
-            var target = new Rectangle(close.PointToScreen(Point.Empty), close.Size);
-            var hit = target.Contains(e.Location);
+            var hit = false;
+            var closeTarget = new Rectangle(close.PointToScreen(Point.Empty), close.Size);
+
+            // Hit close?
+            if (closeTarget.Contains(e.Location))
+            {
+                // But not on start.
+                if (!closeTarget.Contains(initialMousePosition))
+                {
+                    hit = true;
+                }
+            }
+
+            // Close not hit.
+            if (!hit)
+            {
+                var link = body.ScreenPointInLink(e.X, e.Y);
+
+                // Hit link?
+                if (link != null)
+                {
+                    // But not on start.
+                    if (body.ScreenPointInLink(initialMousePosition.X, initialMousePosition.Y) == null)
+                    {
+                        hit = true;
+                    }
+                }
+            }
 
             if (hit)
             {
-                if (!target.Contains(initialMousePosition))
-                {
-                    EnableInteraction(InteractionTypeMouse);
-                }
+                EnableInteraction(InteractionTypeMouse);
             }
             else
             {

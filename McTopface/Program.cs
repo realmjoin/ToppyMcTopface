@@ -27,6 +27,11 @@ namespace ToppyMcTopface
                     Body = { Text = "Omnis quis laboriosam atque est. Explicabo omnis et dolor totam accusamus est vol uptatem. Sint et possimus repellat dolorem." },
                 };
 
+                toppy.Body.LinkClicked += Body_LinkClicked;
+
+                toppy.Body.Links.Add(6, 4, "quis");
+                toppy.Body.Links.Add(22, 5, "atque");
+
                 toppy.Top = 20 + 200 * i;
                 toppy.Left = (int)((Screen.PrimaryScreen.Bounds.Width - toppy.Width) / 2.0);
 
@@ -35,6 +40,14 @@ namespace ToppyMcTopface
             }
 
             Application.Run();
+        }
+
+        private static void Body_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (e.Link.LinkData is string value)
+            {
+                MessageBox.Show(value);
+            }
         }
     }
 }
