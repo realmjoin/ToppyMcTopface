@@ -7,19 +7,49 @@ namespace ToppyMcTopface
 {
     public class GlobalKeyboardMouseHookBroker : IKeyboardEvents, IMouseEvents
     {
-        private readonly Thread thread;
+        private static int MaxWaitMs = 3000;
 
+        private readonly Thread thread;
+        private readonly ManualResetEventSlim hooked = new ManualResetEventSlim();
+
+        private Exception ex;
         private IKeyboardMouseEvents hook;
 
         private GlobalKeyboardMouseHookBroker()
         {
             thread = new Thread(MyThread) { IsBackground = true, Priority = ThreadPriority.Highest };
-            thread.Start();
+        }
+
+        private static GlobalKeyboardMouseHookBroker Factory()
+        {
+            var self = new GlobalKeyboardMouseHookBroker();
+
+            self.thread.Start();
+
+            if (!self.hooked.Wait(MaxWaitMs))
+                throw new TimeoutException($"Hook did not succeed after {MaxWaitMs} ms elapsed.");
+
+            if (self.ex != null)
+                throw self.ex;
+
+            return self;
         }
 
         private void MyThread()
         {
-            hook = Hook.GlobalEvents();
+            try
+            {
+                hook = Hook.GlobalEvents();
+            }
+            catch (Exception e)
+            {
+                ex = e;
+            }
+
+            hooked.Set();
+
+            if (ex != null)
+                return;
 
             hook.KeyDown += (sender, e) => KeyDown?.Invoke(sender, e);
             hook.KeyPress += (sender, e) => KeyPress?.Invoke(sender, e);
@@ -46,7 +76,7 @@ namespace ToppyMcTopface
         /// <summary>
         /// Gets the singleton <see cref="GlobalKeyboardMouseHookBroker"/> instance.
         /// </summary>
-        public static Lazy<GlobalKeyboardMouseHookBroker> Instance { get; set; } = new Lazy<GlobalKeyboardMouseHookBroker>(() => new GlobalKeyboardMouseHookBroker(), LazyThreadSafetyMode.ExecutionAndPublication);
+        public static Lazy<GlobalKeyboardMouseHookBroker> Instance { get; set; } = new Lazy<GlobalKeyboardMouseHookBroker>(Factory, LazyThreadSafetyMode.ExecutionAndPublication);
 
         public event KeyEventHandler KeyDown;
         public event KeyPressEventHandler KeyPress;
