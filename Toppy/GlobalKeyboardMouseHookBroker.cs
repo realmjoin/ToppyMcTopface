@@ -11,11 +11,6 @@ namespace ToppyMcTopface
 
         private IKeyboardMouseEvents hook;
 
-        static GlobalKeyboardMouseHookBroker()
-        {
-            Instance = new GlobalKeyboardMouseHookBroker();
-        }
-
         private GlobalKeyboardMouseHookBroker()
         {
             thread = new Thread(MyThread) { IsBackground = true, Priority = ThreadPriority.Highest };
@@ -51,7 +46,7 @@ namespace ToppyMcTopface
         /// <summary>
         /// Gets the singleton <see cref="GlobalKeyboardMouseHookBroker"/> instance.
         /// </summary>
-        public static GlobalKeyboardMouseHookBroker Instance { get; set; }
+        public static Lazy<GlobalKeyboardMouseHookBroker> Instance { get; set; } = new Lazy<GlobalKeyboardMouseHookBroker>(() => new GlobalKeyboardMouseHookBroker(), LazyThreadSafetyMode.ExecutionAndPublication);
 
         public event KeyEventHandler KeyDown;
         public event KeyPressEventHandler KeyPress;

@@ -19,7 +19,7 @@ namespace ToppyMcTopface
 
             for (int i = 0; i < 3; i++)
             {
-                var toppy = new Toppy(GlobalKeyboardMouseHookBroker.Instance)
+                var toppy = new Toppy(GlobalKeyboardMouseHookBroker.Instance.Value)
                 {
                     Text = $"Toppy {i}",
                     StartPosition = FormStartPosition.Manual,
