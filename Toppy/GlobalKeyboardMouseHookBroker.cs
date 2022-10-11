@@ -7,7 +7,7 @@ namespace ToppyMcTopface
 {
     public class GlobalKeyboardMouseHookBroker : IKeyboardEvents, IMouseEvents
     {
-        private static int MaxWaitMs = 3000;
+        private const int MaxWaitMs = 3000;
 
         private readonly Thread thread;
         private readonly ManualResetEventSlim hooked = new ManualResetEventSlim();
